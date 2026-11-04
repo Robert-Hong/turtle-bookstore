@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>거북이책방</title>
+  <style>
+    :root {
+      --gold: #2e8b57;
+      --gold-dark: #1f6b41;
+      --ink: #222;
+      --muted: #666;
+      --bg: #f8fcf8;
+      --card: #fff;
+      --line: #d9eadc;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Pretendard", "Malgun Gothic", sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.7;
+    }
+
+    /* 공통 헤더 */
+    header {
+      position: sticky; top: 0; z-index: 10;
+      background: #fff; border-bottom: 1px solid var(--line);
+    }
+    .nav {
+      max-width: 1080px; margin: 0 auto; padding: 14px 16px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .logo { font-weight: 800; font-size: 1.3rem; cursor: pointer; }
+    .logo span { color: var(--gold); }
+    .menu { display: flex; gap: 8px; }
+    .menu button {
+      border: none; background: none; cursor: pointer;
+      font: inherit; font-weight: 600; color: var(--muted);
+      padding: 6px 14px; border-radius: 999px;
+    }
+    .menu button:hover { color: var(--gold-dark); }
+    .menu button.active { background: var(--gold); color: #fff; }
+
+    main { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
+
+    /* 화면 전환: active 가 붙은 화면만 보임 */
+    .view { display: none; }
+    .view.active { display: block; }
+
+    /* 히어로 */
+    .hero { text-align: center; padding: 80px 0 60px; }
+    .hero h1 { font-size: 2.4rem; line-height: 1.3; margin-bottom: 16px; }
+    .hero h1 em { font-style: normal; color: var(--gold); }
+    .hero p { color: var(--muted); font-size: 1.1rem; }
+    .btn {
+      display: inline-block; margin-top: 28px; padding: 12px 28px; border: none;
+      background: var(--gold); color: #fff; border-radius: 999px;
+      font: inherit; font-weight: 700; cursor: pointer;
+    }
+    .btn:hover { background: var(--gold-dark); }
+
+    section { padding: 48px 0; }
+    section h2 { font-size: 1.6rem; margin-bottom: 24px; }
+    section h2::before { content: "■ "; color: var(--gold); }
+
+    /* 카드 그리드 */
+    .grid { display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+    .card {
+      background: var(--card); border: 1px solid var(--line);
+      border-radius: 12px; padding: 24px;
+    }
+    .card h3 { margin-bottom: 8px; }
+    .card p { color: var(--muted); font-size: 0.95rem; }
+
+    /* 연혁 */
+    .timeline { list-style: none; border-left: 3px solid var(--gold); padding-left: 20px; }
+    .timeline li { margin-bottom: 14px; }
+    .timeline b { color: var(--gold-dark); margin-right: 8px; }
+
+    /* 도서 목록 */
+    .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+    .filters button {
+      border: 1px solid var(--gold); background: #fff; color: var(--gold-dark);
+      padding: 6px 16px; border-radius: 999px; cursor: pointer; font-weight: 600;
+    }
+    .filters button.on { background: var(--gold); color: #fff; }
+    .book .cover {
+      height: 200px; border-radius: 8px; margin-bottom: 16px;
+      display: flex; align-items: center; justify-content: center; text-align: center;
+      color: #fff; font-weight: 800; font-size: 1.1rem; padding: 16px;
+    }
+    .book .tag {
+      display: inline-block; font-size: 0.8rem; background: #fff4d1;
+      color: var(--gold-dark); padding: 2px 10px; border-radius: 999px; margin-bottom: 8px;
+    }
+    .book .price { margin-top: 10px; font-weight: 700; color: var(--ink); }
+
+    footer {
+      margin-top: 60px; padding: 28px 16px; text-align: center;
+      color: var(--muted); border-top: 1px solid var(--line); font-size: 0.9rem;
+    }
+
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 1.8rem; }
+      .menu button { padding: 6px 10px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="nav">
+      <div class="logo" data-view="about">🐢 거북이<span>책방</span></div>
+      <div class="menu">
+        <button data-view="about">회사 소개</button>
+        <button data-view="books">도서 목록</button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- 회사 소개 화면 -->
+    <div class="view" id="about">
+      <div class="hero">
+        <h1>느려도 <em>꾸준히</em>,<br>한 권씩 단단하게</h1>
+        <p>거북이책방은 개발자와 IT 학습자를 위한 실용서를 만드는 출판사입니다.</p>
+        <button class="btn" data-view="books">도서 둘러보기 →</button>
+      </div>
+
+      <section>
+        <h2>우리가 추구하는 가치</h2>
+        <div class="grid">
+          <div class="card">
+            <h3>📘 실전 중심</h3>
+            <p>이론보다 직접 만들어 보며 익히는 프로젝트형 구성을 지향합니다.</p>
+          </div>
+          <div class="card">
+            <h3>🧭 친절한 안내</h3>
+            <p>입문자도 길을 잃지 않도록 단계별 설명과 그림을 충분히 담습니다.</p>
+          </div>
+          <div class="card">
+            <h3>🤝 저자와 함께</h3>
+            <p>현업 전문가 저자와 긴밀히 협업해 최신 기술을 빠르게 전합니다.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>연혁 (예시)</h2>
+        <ul class="timeline">
+          <li><b>설립</b>IT 전문 출판사로 출발</li>
+          <li><b>성장</b>프로그래밍·데이터·AI 분야로 도서 확대</li>
+          <li><b>현재</b>입문서부터 실무서까지 다양한 시리즈 출간</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>연락처</h2>
+        <div class="card">
+          <p>📍 주소: (실제 주소를 입력하세요)<br>
+             ✉️ 이메일: (실제 이메일을 입력하세요)<br>
+             📝 원고 투고를 환영합니다.</p>
+        </div>
+      </section>
+    </div>
+
+    <!-- 도서 목록 화면 -->
+    <div class="view" id="books">
+      <section>
+        <h2>도서 목록</h2>
+        <div class="filters" id="filters"></div>
+        <div class="grid" id="bookList"></div>
+      </section>
+    </div>
+  </main>
+
+  <footer>© 거북이책방 · 도서 정보는 샘플 데이터입니다</footer>
+
+  <script>
+    // 화면 전환: data-view 가 있는 요소를 누르면 해당 화면만 보여 줌
+    function showView(name) {
+      document.querySelectorAll(".view").forEach(v => v.classList.toggle("active", v.id === name));
+      document.querySelectorAll(".menu button").forEach(b => b.classList.toggle("active", b.dataset.view === name));
+      history.replaceState(null, "", "#" + name);
+      window.scrollTo(0, 0);
+    }
+    document.querySelectorAll("[data-view]").forEach(el => {
+      el.addEventListener("click", () => showView(el.dataset.view));
+    });
+
+    // 샘플 데이터: 실제 도서 정보로 교체하세요
+    const books = [
+      { title: "처음 배우는 파이썬", author: "김코드", category: "프로그래밍", price: 22000, desc: "설치부터 미니 프로젝트까지 한 권으로.", color: "#2e8b57" },
+      { title: "실전 웹 개발 입문", author: "이웹", category: "웹", price: 28000, desc: "HTML·CSS·JS로 나만의 사이트 만들기.", color: "#e07a5f" },
+      { title: "데이터 분석 첫걸음", author: "박데이터", category: "데이터", price: 26000, desc: "판다스와 시각화로 데이터 읽는 법.", color: "#3d405b" },
+      { title: "AI 에이전트 만들기", author: "최에이아이", category: "AI", price: 32000, desc: "LLM과 MCP로 나만의 에이전트 구축.", color: "#81b29a" },
+      { title: "자바스크립트 완전정복", author: "정스크립트", category: "웹", price: 30000, desc: "기초 문법부터 비동기 처리까지.", color: "#f2a541" },
+      { title: "알고리즘 트레이닝", author: "한알고", category: "프로그래밍", price: 27000, desc: "코딩 테스트 대비 핵심 문제 풀이.", color: "#5b8e7d" }
+    ];
+
+    const categories = ["전체", ...new Set(books.map(b => b.category))];
+    const filtersEl = document.getElementById("filters");
+    const bookListEl = document.getElementById("bookList");
+
+    function renderBooks(category) {
+      const list = category === "전체" ? books : books.filter(b => b.category === category);
+      bookListEl.innerHTML = list.map(b => `
+        <div class="card book">
+          <div class="cover" style="background:${b.color}">${b.title}</div>
+          <span class="tag">${b.category}</span>
+          <h3>${b.title}</h3>
+          <p>${b.author} 지음</p>
+          <p>${b.desc}</p>
+          <p class="price">${b.price.toLocaleString()}원</p>
+        </div>`).join("");
+      [...filtersEl.children].forEach(btn => btn.classList.toggle("on", btn.textContent === category));
+    }
+
+    filtersEl.innerHTML = categories.map(c => `<button>${c}</button>`).join("");
+    filtersEl.addEventListener("click", e => {
+      if (e.target.tagName === "BUTTON") renderBooks(e.target.textContent);
+    });
+
+    renderBooks("전체");
+    showView(location.hash === "#books" ? "books" : "about");
+  </script>
+</body>
+</html>
